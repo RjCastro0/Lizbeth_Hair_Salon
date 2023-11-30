@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Lisbeth_Hair_Salon.props" />
+</Project>
