@@ -41,22 +41,7 @@ namespace Lisbeth_Hair_Salon.Controllers
 
             if (perfil != null)
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, perfil.UserName)
-                };
-
-                string[] usuarioRol = { perfil.Role };
-
-                foreach (string Role in usuarioRol)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, Role));
-                }
-
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
+                await AutenticarUsuario(perfil);
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -69,6 +54,41 @@ namespace Lisbeth_Hair_Salon.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
+        }
+
+        private async Task AutenticarUsuario(Usuario perfil)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, perfil.UserName)
+            };
+
+            string[] usuarioRol = { perfil.Role };
+
+            foreach (string Role in usuarioRol)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, Role));
+            }
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ValidarCredenciales(string UserName, string Password)
+        {
+            var perfil = ValidarUsuario(UserName, Password);
+
+            if (perfil != null)
+            {
+                await AutenticarUsuario(perfil);
+                return Ok(); // Cambia según tu necesidad
+            }
+            else
+            {
+                return BadRequest("Credenciales incorrectas");
+            }
         }
     }
 }
