@@ -21,7 +21,7 @@ namespace Lisbeth_Hair_Salon.Controllers
         // GET: RegistroDeVentas
         public async Task<IActionResult> Index()
         {
-            var hairSalonContext = _context.RegistroDeVentas.Include(r => r.Servicio).Include(r => r.Ticket);
+            var hairSalonContext = _context.RegistroDeVentas.Include(r => r.Ticket);
             return View(await hairSalonContext.ToListAsync());
         }
 
@@ -34,7 +34,6 @@ namespace Lisbeth_Hair_Salon.Controllers
             }
 
             var registroDeVenta = await _context.RegistroDeVentas
-                .Include(r => r.Servicio)
                 .Include(r => r.Ticket)
                 .FirstOrDefaultAsync(m => m.VentaId == id);
             if (registroDeVenta == null)
@@ -48,7 +47,6 @@ namespace Lisbeth_Hair_Salon.Controllers
         // GET: RegistroDeVentas/Create
         public IActionResult Create()
         {
-            ViewData["ServicioId"] = new SelectList(_context.Menus, "ServicioId", "ServicioId");
             ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId");
             return View();
         }
@@ -58,7 +56,7 @@ namespace Lisbeth_Hair_Salon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VentaId,TicketId,ServicioId,Total,Fecha,Status")] RegistroDeVenta registroDeVenta)
+        public async Task<IActionResult> Create([Bind("VentaId,TicketId,Total,Fecha,Status")] RegistroDeVenta registroDeVenta)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +64,6 @@ namespace Lisbeth_Hair_Salon.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ServicioId"] = new SelectList(_context.Menus, "ServicioId", "ServicioId", registroDeVenta.ServicioId);
             ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId", registroDeVenta.TicketId);
             return View(registroDeVenta);
         }
@@ -84,7 +81,6 @@ namespace Lisbeth_Hair_Salon.Controllers
             {
                 return NotFound();
             }
-            ViewData["ServicioId"] = new SelectList(_context.Menus, "ServicioId", "ServicioId", registroDeVenta.ServicioId);
             ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId", registroDeVenta.TicketId);
             return View(registroDeVenta);
         }
@@ -94,7 +90,7 @@ namespace Lisbeth_Hair_Salon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VentaId,TicketId,ServicioId,Total,Fecha,Status")] RegistroDeVenta registroDeVenta)
+        public async Task<IActionResult> Edit(int id, [Bind("VentaId,TicketId,Total,Fecha,Status")] RegistroDeVenta registroDeVenta)
         {
             if (id != registroDeVenta.VentaId)
             {
@@ -121,7 +117,6 @@ namespace Lisbeth_Hair_Salon.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ServicioId"] = new SelectList(_context.Menus, "ServicioId", "ServicioId", registroDeVenta.ServicioId);
             ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId", registroDeVenta.TicketId);
             return View(registroDeVenta);
         }
@@ -135,7 +130,6 @@ namespace Lisbeth_Hair_Salon.Controllers
             }
 
             var registroDeVenta = await _context.RegistroDeVentas
-                .Include(r => r.Servicio)
                 .Include(r => r.Ticket)
                 .FirstOrDefaultAsync(m => m.VentaId == id);
             if (registroDeVenta == null)

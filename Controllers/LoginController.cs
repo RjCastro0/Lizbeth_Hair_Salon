@@ -42,11 +42,14 @@ namespace Lisbeth_Hair_Salon.Controllers
             if (perfil != null)
             {
                 await AutenticarUsuario(perfil);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "TicketDeVentas");
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                ViewBag.Validacion = "No se puede registrar, ya existe";
+                return RedirectToAction(nameof(Index));
+
+
             }
         }
 
@@ -82,12 +85,13 @@ namespace Lisbeth_Hair_Salon.Controllers
 
             if (perfil != null)
             {
-                await AutenticarUsuario(perfil);
-                return Ok(); // Cambia según tu necesidad
+                
+                return BadRequest("Credenciales incorrectas");
             }
             else
             {
-                return BadRequest("Credenciales incorrectas");
+                await AutenticarUsuario(perfil);
+                return Ok(); // Cambia según tu necesidad
             }
         }
     }

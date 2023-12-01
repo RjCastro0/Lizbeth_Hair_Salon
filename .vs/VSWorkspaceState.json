@@ -3,8 +3,10 @@
     "",
     "\\Controllers",
     "\\Views",
+    "\\Views\\Home",
+    "\\Views\\Menus",
     "\\Views\\Shared"
   ],
-  "SelectedNode": "\\Controllers\\LoginController.cs",
+  "SelectedNode": "\\Views\\Home\\Index.cshtml",
   "PreviewInSolutionExplorer": false
 }

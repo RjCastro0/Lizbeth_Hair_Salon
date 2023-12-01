@@ -29,6 +29,10 @@ public partial class HairSalonContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-N91JU5J; Database=Hair_Salon;integrated security=true;TrustServerCertificate=True;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Inventario>(entity =>
@@ -75,17 +79,8 @@ public partial class HairSalonContext : DbContext
 
             entity.Property(e => e.VentaId).HasColumnName("Venta_ID");
             entity.Property(e => e.Fecha).HasColumnType("datetime");
-            entity.Property(e => e.ServicioId).HasColumnName("Servicio_ID");
-            entity.Property(e => e.Status)
-                .HasMaxLength(1)
-                .IsFixedLength();
             entity.Property(e => e.TicketId).HasColumnName("Ticket_ID");
             entity.Property(e => e.Total).HasColumnType("numeric(7, 2)");
-
-            entity.HasOne(d => d.Servicio).WithMany(p => p.RegistroDeVenta)
-                .HasForeignKey(d => d.ServicioId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Registro_de_Ventas_Menu");
 
             entity.HasOne(d => d.Ticket).WithMany(p => p.RegistroDeVenta)
                 .HasForeignKey(d => d.TicketId)
@@ -143,7 +138,12 @@ public partial class HairSalonContext : DbContext
             entity.Property(e => e.Empleada)
                 .HasMaxLength(25)
                 .IsUnicode(false);
+            entity.Property(e => e.ServicioId).HasColumnName("Servicio_ID");
             entity.Property(e => e.SurcursalId).HasColumnName("Surcursal_ID");
+
+            entity.HasOne(d => d.Servicio).WithMany(p => p.TicketDeVenta)
+                .HasForeignKey(d => d.ServicioId)
+                .HasConstraintName("FK_Ticket_de_Venta_Menu");
 
             entity.HasOne(d => d.Surcursal).WithMany(p => p.TicketDeVenta)
                 .HasForeignKey(d => d.SurcursalId)
