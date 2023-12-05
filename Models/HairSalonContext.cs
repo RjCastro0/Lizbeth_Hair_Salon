@@ -19,15 +19,17 @@ public partial class HairSalonContext : DbContext
 
     public virtual DbSet<Menu> Menus { get; set; }
 
-    public virtual DbSet<RegistroDeVenta> RegistroDeVentas { get; set; }
+    public virtual DbSet<RegistroDeVentas> RegistroDeVentas { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Sucursal> Sucursals { get; set; }
 
-    public virtual DbSet<TicketDeVentum> TicketDeVenta { get; set; }
+    public virtual DbSet<TicketDeVenta> TicketDeVenta { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
+
+    public virtual DbSet<Venta> Venta { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -71,7 +73,7 @@ public partial class HairSalonContext : DbContext
                 .IsFixedLength();
         });
 
-        modelBuilder.Entity<RegistroDeVenta>(entity =>
+        modelBuilder.Entity<RegistroDeVentas>(entity =>
         {
             entity.HasKey(e => e.VentaId);
 
@@ -124,11 +126,11 @@ public partial class HairSalonContext : DbContext
                 .IsFixedLength();
         });
 
-        modelBuilder.Entity<TicketDeVentum>(entity =>
+        modelBuilder.Entity<TicketDeVenta>(entity =>
         {
-            entity.HasKey(e => e.TicketId);
+            entity.HasKey(e => e.TicketId).HasName("PK_Ticket_de_Venta");
 
-            entity.ToTable("Ticket_de_Venta");
+            entity.ToTable("Ticket_De_Venta");
 
             entity.Property(e => e.TicketId).HasColumnName("Ticket_ID");
             entity.Property(e => e.ClienteNombre)
@@ -138,11 +140,13 @@ public partial class HairSalonContext : DbContext
             entity.Property(e => e.Empleada)
                 .HasMaxLength(25)
                 .IsUnicode(false);
+            entity.Property(e => e.Precio).HasColumnType("numeric(7, 2)");
             entity.Property(e => e.ServicioId).HasColumnName("Servicio_ID");
             entity.Property(e => e.SurcursalId).HasColumnName("Surcursal_ID");
 
             entity.HasOne(d => d.Servicio).WithMany(p => p.TicketDeVenta)
                 .HasForeignKey(d => d.ServicioId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Ticket_de_Venta_Menu");
 
             entity.HasOne(d => d.Surcursal).WithMany(p => p.TicketDeVenta)
@@ -176,6 +180,25 @@ public partial class HairSalonContext : DbContext
             entity.HasOne(d => d.SucursalNavigation).WithMany(p => p.Usuarios)
                 .HasForeignKey(d => d.Sucursal)
                 .HasConstraintName("FK_Usuarios_Sucursal");
+        });
+
+        modelBuilder.Entity<Venta>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.Precio).HasColumnType("numeric(7, 2)");
+            entity.Property(e => e.ServicioId).HasColumnName("Servicio_ID");
+            entity.Property(e => e.TicketId).HasColumnName("TicketID");
+
+            entity.HasOne(d => d.Servicio).WithMany()
+                .HasForeignKey(d => d.ServicioId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TicketDetails_Menu");
+
+            entity.HasOne(d => d.Ticket).WithMany()
+                .HasForeignKey(d => d.TicketId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TicketDetails_Ticket_de_Venta");
         });
 
         OnModelCreatingPartial(modelBuilder);

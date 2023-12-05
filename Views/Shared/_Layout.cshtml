@@ -1,125 +1,63 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Lisbeth Hair Salon</title>
-    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - Lizbeth_Salon</title>
 
-@*     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Estilos de Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Estilos de Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Otros estilos -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Lisbeth_Hair_Salon.styles.css" asp-append-version="true" /> *@
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="~/Lizbeth_Salon.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <div class="container-fluid sticky-top px-0">
-            <div class="container-fluid topbar d-none d-lg-block">
-                <div class="container px-0">
-                    <div class="row align-items-center">
-                        <div class="col-lg-8">
-                  
+        <nav class="navbar-fixed">
+            <div class="nav-wrapper">
+                <a  class="brand-logo">Lizbeth Salon</a>
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
 
-                        </div>
-                    </div>
-                </div>
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li><a href="@Url.Action("Index", "RegistroDeVentas")">Registro De Venta</a></li>
+                        <li><a href="@Url.Action("Index", "Inventarios")">Inventario</a></li>
+                        <li><a href="@Url.Action("Index", "Sucursals")">Sucursales</a></li>
+                        <li><a href="@Url.Action("Index", "Usuarios")">Usuarios</a></li>
+                    }
+                    @if (User.IsInRole("Secretario"))
+                    {
+                        <li><a href="@Url.Action("Index", "TicketDeVenta")">Ticket de Venta</a></li>
+                    }
+                </ul>
             </div>
-            <div class="container-fluid bg-light">
-                <div class="container px-0">
-                    <nav class="navbar navbar-light navbar-expand-xl">
-                        <a href="index.html" class="navbar-brand">
-                            <h1 asp-controller="Home" asp-action="Index" class="text-primary display-4">Lisbeth Hair Salon</h1>
-                        </a>
-                        <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                            <span class="fa fa-bars text-primary"></span>
-                        </button>
-                        <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
-                            <div class="d-flex align-items-center flex-nowrap pt-xl-0">
-                                <a asp-action="Index" asp-controller="Login" class="btn btn-primary btn-primary-outline-0 rounded-pill py-3 px-4 ms-4">Login</a>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
+        </nav>
     </header>
-    <div>
+
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container-fluid footer py-5">
-            <div class="container py-5">
-                <div class="row g-5">
-                    
-                    
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="footer-item d-flex flex-column">
-                            <h4 class="my-4 text-white">Contact Us</h4>
-                            <p class="mb-0"><i class="fas fa-envelope text-secondary me-2"></i> info@example.com</p>
-                            <p class="mb-0"><i class="fas fa-phone text-secondary me-2"></i> (+012) 3456 7890 123</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+   
 
-        <div class="container-fluid copyright py-4">
-            <div class="container">
-                <div class="row g-4 align-items-center">
-                    <div class="col-md-4 text-center text-md-start mb-md-0">
-                        <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Lizbeth Hair Salon</a>, All right reserved.</span>
-                    </div>
-                    <div class="col-md-4 text-center text-md-end text-white">
-                        <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
-                        <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
-                        <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Scripts de jQuery, Bootstrap y Materialize -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-@*     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script> *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <!-- Script personalizado del sitio -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-
+    <!-- Sección de scripts opcional -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

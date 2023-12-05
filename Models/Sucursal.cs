@@ -17,7 +17,7 @@ public partial class Sucursal
 
     public virtual ICollection<Inventario> Inventarios { get; set; } = new List<Inventario>();
 
-    public virtual ICollection<TicketDeVentum> TicketDeVenta { get; set; } = new List<TicketDeVentum>();
+    public virtual ICollection<TicketDeVenta> TicketDeVenta { get; set; } = new List<TicketDeVenta>();
 
     public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
 }

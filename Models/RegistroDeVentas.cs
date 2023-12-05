@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Lisbeth_Hair_Salon.Models;
 
-public partial class RegistroDeVenta
+public partial class RegistroDeVentas
 {
     public int VentaId { get; set; }
 
@@ -13,5 +13,5 @@ public partial class RegistroDeVenta
 
     public DateTime Fecha { get; set; }
 
-    public virtual TicketDeVentum Ticket { get; set; } = null!;
+    public virtual TicketDeVenta Ticket { get; set; } = null!;
 }

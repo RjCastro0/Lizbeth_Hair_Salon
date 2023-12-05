@@ -3,10 +3,8 @@
     "",
     "\\Controllers",
     "\\Views",
-    "\\Views\\Home",
-    "\\Views\\Menus",
-    "\\Views\\Shared"
+    "\\Views\\TicketDeVentas"
   ],
-  "SelectedNode": "\\Views\\Home\\Index.cshtml",
+  "SelectedNode": "\\Views\\TicketDeVentas\\Details.cshtml",
   "PreviewInSolutionExplorer": false
 }

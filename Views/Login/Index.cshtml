@@ -12,9 +12,7 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image">
-                            <img src="img/carousel-3.jpg" class="img-fluid" alt="Image">
-                        </div>
+ 
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
@@ -31,14 +29,15 @@
                                         <div class="form-group mt-1">
                                             <input asp-for="Password" type="password" class="form-control form-control-user"
                                                    id="exampleInputPassword" placeholder="Contraseña">
-                                            <p>
-                                                @ViewBag.Validacion
-                                            </p>
+                                            
                                         </div>
                                         
                                         <button type="submit" class="btn btn-primary btn-user btn-block mt-1">
                                             Login
-                                        </button>
+                                    </button>
+                                    <p>
+                                        @ViewBag.Validacion
+                                    </p>
                                     </form>
                             </div>
                         </div>

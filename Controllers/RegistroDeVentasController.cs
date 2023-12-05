@@ -33,15 +33,15 @@ namespace Lisbeth_Hair_Salon.Controllers
                 return NotFound();
             }
 
-            var registroDeVenta = await _context.RegistroDeVentas
+            var registroDeVentas = await _context.RegistroDeVentas
                 .Include(r => r.Ticket)
                 .FirstOrDefaultAsync(m => m.VentaId == id);
-            if (registroDeVenta == null)
+            if (registroDeVentas == null)
             {
                 return NotFound();
             }
 
-            return View(registroDeVenta);
+            return View(registroDeVentas);
         }
 
         // GET: RegistroDeVentas/Create
@@ -56,16 +56,16 @@ namespace Lisbeth_Hair_Salon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VentaId,TicketId,Total,Fecha,Status")] RegistroDeVenta registroDeVenta)
+        public async Task<IActionResult> Create([Bind("VentaId,TicketId,Total,Fecha")] RegistroDeVentas registroDeVentas)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(registroDeVenta);
+                _context.Add(registroDeVentas);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId", registroDeVenta.TicketId);
-            return View(registroDeVenta);
+            ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId", registroDeVentas.TicketId);
+            return View(registroDeVentas);
         }
 
         // GET: RegistroDeVentas/Edit/5
@@ -76,13 +76,13 @@ namespace Lisbeth_Hair_Salon.Controllers
                 return NotFound();
             }
 
-            var registroDeVenta = await _context.RegistroDeVentas.FindAsync(id);
-            if (registroDeVenta == null)
+            var registroDeVentas = await _context.RegistroDeVentas.FindAsync(id);
+            if (registroDeVentas == null)
             {
                 return NotFound();
             }
-            ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId", registroDeVenta.TicketId);
-            return View(registroDeVenta);
+            ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId", registroDeVentas.TicketId);
+            return View(registroDeVentas);
         }
 
         // POST: RegistroDeVentas/Edit/5
@@ -90,9 +90,9 @@ namespace Lisbeth_Hair_Salon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VentaId,TicketId,Total,Fecha,Status")] RegistroDeVenta registroDeVenta)
+        public async Task<IActionResult> Edit(int id, [Bind("VentaId,TicketId,Total,Fecha")] RegistroDeVentas registroDeVentas)
         {
-            if (id != registroDeVenta.VentaId)
+            if (id != registroDeVentas.VentaId)
             {
                 return NotFound();
             }
@@ -101,12 +101,12 @@ namespace Lisbeth_Hair_Salon.Controllers
             {
                 try
                 {
-                    _context.Update(registroDeVenta);
+                    _context.Update(registroDeVentas);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RegistroDeVentaExists(registroDeVenta.VentaId))
+                    if (!RegistroDeVentasExists(registroDeVentas.VentaId))
                     {
                         return NotFound();
                     }
@@ -117,8 +117,8 @@ namespace Lisbeth_Hair_Salon.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId", registroDeVenta.TicketId);
-            return View(registroDeVenta);
+            ViewData["TicketId"] = new SelectList(_context.TicketDeVenta, "TicketId", "TicketId", registroDeVentas.TicketId);
+            return View(registroDeVentas);
         }
 
         // GET: RegistroDeVentas/Delete/5
@@ -129,15 +129,15 @@ namespace Lisbeth_Hair_Salon.Controllers
                 return NotFound();
             }
 
-            var registroDeVenta = await _context.RegistroDeVentas
+            var registroDeVentas = await _context.RegistroDeVentas
                 .Include(r => r.Ticket)
                 .FirstOrDefaultAsync(m => m.VentaId == id);
-            if (registroDeVenta == null)
+            if (registroDeVentas == null)
             {
                 return NotFound();
             }
 
-            return View(registroDeVenta);
+            return View(registroDeVentas);
         }
 
         // POST: RegistroDeVentas/Delete/5
@@ -149,17 +149,17 @@ namespace Lisbeth_Hair_Salon.Controllers
             {
                 return Problem("Entity set 'HairSalonContext.RegistroDeVentas'  is null.");
             }
-            var registroDeVenta = await _context.RegistroDeVentas.FindAsync(id);
-            if (registroDeVenta != null)
+            var registroDeVentas = await _context.RegistroDeVentas.FindAsync(id);
+            if (registroDeVentas != null)
             {
-                _context.RegistroDeVentas.Remove(registroDeVenta);
+                _context.RegistroDeVentas.Remove(registroDeVentas);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RegistroDeVentaExists(int id)
+        private bool RegistroDeVentasExists(int id)
         {
           return (_context.RegistroDeVentas?.Any(e => e.VentaId == id)).GetValueOrDefault();
         }

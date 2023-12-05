@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Lisbeth_Hair_Salon.Models.RegistroDeVenta>
+﻿@model IEnumerable<Lisbeth_Hair_Salon.Models.RegistroDeVentas>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,7 +18,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
-           
             <th>
                 @Html.DisplayNameFor(model => model.Ticket)
             </th>
@@ -34,7 +33,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Fecha)
             </td>
-            
             <td>
                 @Html.DisplayFor(modelItem => item.Ticket.TicketId)
             </td>
@@ -47,3 +45,8 @@
 }
     </tbody>
 </table>
+<footer class="border-top footer text-muted">
+    <div class="container">
+        <a class="btn waves-effect waves-light" asp-controller="Login" asp-action="CerrarSesion">Cerrar Sesion</a>
+    </div>
+</footer>

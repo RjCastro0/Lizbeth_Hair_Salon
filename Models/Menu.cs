@@ -11,5 +11,5 @@ public partial class Menu
 
     public string Statuts { get; set; } = null!;
 
-    public virtual ICollection<TicketDeVentum> TicketDeVenta { get; set; } = new List<TicketDeVentum>();
+    public virtual ICollection<TicketDeVenta> TicketDeVenta { get; set; } = new List<TicketDeVenta>();
 }

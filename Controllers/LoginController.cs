@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Lisbeth_Hair_Salon.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Lisbeth_Hair_Salon.Controllers
 {
@@ -46,7 +47,7 @@ namespace Lisbeth_Hair_Salon.Controllers
             }
             else
             {
-                ViewBag.Validacion = "No se puede registrar, ya existe";
+                ViewData["Validacion"] = "Contrasena o Nombre Incorrectos";
                 return RedirectToAction(nameof(Index));
 
 
@@ -56,7 +57,7 @@ namespace Lisbeth_Hair_Salon.Controllers
         public async Task<IActionResult> CerrarSesion()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Login");
         }
 
         private async Task AutenticarUsuario(Usuario perfil)
@@ -78,21 +79,6 @@ namespace Lisbeth_Hair_Salon.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ValidarCredenciales(string UserName, string Password)
-        {
-            var perfil = ValidarUsuario(UserName, Password);
 
-            if (perfil != null)
-            {
-                
-                return BadRequest("Credenciales incorrectas");
-            }
-            else
-            {
-                await AutenticarUsuario(perfil);
-                return Ok(); // Cambia según tu necesidad
-            }
-        }
     }
 }
